@@ -5,14 +5,14 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface ICarDal
+    public interface ICarDal : IEntityRepository<Car>
     {
+        /*
         Car GetCarById(int carId); // carId'ye göre bir araba listelenir.
         List<Car> GetAll(); // Tüm arabaları listeleme.
         void Add(Car car);
         void Update(Car car);
         void Delete(Car car);
-
-
+        */
     }
 }
