@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
-            if (car.Description.Length >= 2 && car.DailyPrice > 0)
+            if (car.CarName.Length >= 2 && car.DailyPrice > 0)
             {
                 _iCarDal.Add(car);
             }
@@ -26,7 +27,23 @@ namespace Business.Concrete
                 Console.WriteLine("The car description must contain at least two characters!\n" +
                     "The daily price of the car must be greater than zero!");
             }
-            
+        }
+        public void Update(Car car)
+        {
+            if (car.CarName.Length >= 2 && car.DailyPrice > 0)
+            {
+                _iCarDal.Update(car);
+            }
+            else
+            {
+                Console.WriteLine("The car description must contain at least two characters!/n" +
+                    "The daily price of the car must be greater than zero!");
+            }
+        }
+
+        public void Delete(Car car)
+        {
+            _iCarDal.Delete(car);
         }
 
         public List<Car> GetAll()
@@ -49,17 +66,9 @@ namespace Business.Concrete
             return _iCarDal.GetAll(c => c.ColorId == colorId);
         }
 
-        public void Update(Car car)
+        public List<CarDetailDto> GetCarDetails()
         {
-            if (car.Description.Length >= 2 && car.DailyPrice > 0)
-            {
-                _iCarDal.Update(car);
-            }
-            else
-            {
-                Console.WriteLine("The car description must contain at least two characters!/n" +
-                    "The daily price of the car must be greater than zero!");
-            }
-        }
+            return _iCarDal.GetCarDetails();
+        }        
     }
 }

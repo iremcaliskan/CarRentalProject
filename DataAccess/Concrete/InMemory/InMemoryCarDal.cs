@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,11 @@ namespace DataAccess.Concrete.InMemory
         {
             _cars = new List<Car>()
             {
-                new Car() {CarId = 1, BrandId = 1, ColorId = 1, Description = "Otomatik", ModelYear = "2010", DailyPrice = 89999.99m},
-                new Car() {CarId = 2, BrandId = 1, ColorId = 2, Description = "Otomatik", ModelYear = "2012", DailyPrice = 129999.99m},
-                new Car() {CarId = 3, BrandId = 1, ColorId = 3, Description = "Manuel", ModelYear = "2010", DailyPrice = 79999.99m},
-                new Car() {CarId = 4, BrandId = 2, ColorId = 1, Description = "Otomatik", ModelYear = "2010", DailyPrice = 259999.99m},
-                new Car() {CarId = 5, BrandId = 2, ColorId = 2, Description = "Otomatik ", ModelYear = "2010", DailyPrice = 281000}
+                new Car() {CarId = 1, BrandId = 1, ColorId = 1, CarName = "A", Description = "Otomatik", ModelYear = "2010", DailyPrice = 89999.99m},
+                new Car() {CarId = 2, BrandId = 1, ColorId = 2, CarName = "B", Description = "Otomatik", ModelYear = "2012", DailyPrice = 129999.99m},
+                new Car() {CarId = 3, BrandId = 1, ColorId = 3, CarName = "C", Description = "Manuel", ModelYear = "2010", DailyPrice = 79999.99m},
+                new Car() {CarId = 4, BrandId = 2, ColorId = 1, CarName = "D", Description = "Otomatik", ModelYear = "2010", DailyPrice = 259999.99m},
+                new Car() {CarId = 5, BrandId = 2, ColorId = 2, CarName = "E", Description = "Otomatik ", ModelYear = "2010", DailyPrice = 281000}
             };
         }
 
@@ -33,6 +34,7 @@ namespace DataAccess.Concrete.InMemory
             // Gelen özellikleri güncellenecek arabaya atama:
             carToUpdate.BrandId = car.BrandId;
             carToUpdate.ColorId = car.ColorId;
+            carToUpdate.CarName = car.CarName;
             carToUpdate.DailyPrice = car.DailyPrice;
             carToUpdate.Description = car.Description;
             carToUpdate.ModelYear = car.ModelYear;
@@ -63,6 +65,11 @@ namespace DataAccess.Concrete.InMemory
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             throw new NotImplementedException(); // EF'ye geçildi, sadece bozulmaması için gerekli implementasyonlar yapıldı.
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
         }
     }
 }

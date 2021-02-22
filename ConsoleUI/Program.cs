@@ -12,24 +12,59 @@ namespace ConsoleUI
         {
             //InMemoryCarDalTest();
 
+            //EfCarDalTest();
+
+            // Evrensel kodların yazıldığı ve base sınıflardan oluşan Core katmanı yazıldı.
+            // Dto örneği yapıldı.
+            // Crud operasyonları tamamlandı.
+            CarManager carManager = new CarManager(new EfCarDal());
+            foreach (var car in carManager.GetCarDetails())
+            {
+                Console.WriteLine("{0} {1} {2} {3}", car.CarName, car.BrandName, car.ColorName, car.DailyPrice);
+            }
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+            //colorManager.Add(new Color { ColorId = 6, ColorName = "Orange" });
+            //colorManager.Update(new Color { ColorId = 6, ColorName = "Turuncu" });
+
+            foreach (var color in colorManager.GetAll())
+            {
+                Console.WriteLine(color.ColorName);
+            }
+            Console.WriteLine(colorManager.GetById(6).ColorName);
+           
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            //brandManager.Add(new Brand { BrandId = 8, BrandName = "TOYOTA" });
+            //brandManager.Update(new Brand { BrandId = 8, BrandName = "Toyota" });
+
+            foreach (var brand in brandManager.GetAll())
+            {
+                Console.WriteLine(brand.BrandName);
+            }
+            Console.WriteLine(brandManager.GetById(8).BrandName);
+        }
+
+        private static void EfCarDalTest()
+        {
             // Test of EfCarDal
             CarManager carManager = new CarManager(new EfCarDal());
             foreach (var car in carManager.GetCarsByBrandId(5)) // BMW
             {
-                Console.WriteLine(car.Description);
+                Console.WriteLine(car.CarName);
             }
 
             foreach (var car in carManager.GetCarsByColorId(1)) // Siyah
             {
-                Console.WriteLine(car.Description);
+                Console.WriteLine(car.CarName);
             }
 
-            Car demoCar = new Car() {
+            Car demoCar = new Car()
+            {
                 CarId = 8,
                 BrandId = 7,
                 ColorId = 1,
+                CarName = "Car Demo",
                 DailyPrice = 10,
-                Description = "Demo Car",
+                Description = "Car Demo",
                 ModelYear = "2010"
             };
 

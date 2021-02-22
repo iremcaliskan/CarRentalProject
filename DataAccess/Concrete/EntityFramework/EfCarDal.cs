@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,8 +11,9 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, CarRentalDBContext>, ICarDal
     {
+        /* Her sınıf için tekrarlanan aynı veri erişim yöntemine sahip  bu metotlar Base Class'tan inherit edilerek halledilir.
         public void Add(Car entity)
         {
             using (CarRentalDBContext context = new CarRentalDBContext())
@@ -58,6 +61,24 @@ namespace DataAccess.Concrete.EntityFramework
                     : context.Set<Car>().Where(filter).ToList(); // null değil ise DbSet Car sınıfını yani Cars Tablosunu seç,
                 // filtreyi yani predicate, lamda ifadesini koşulunu sağlayanları seç(Where), listede topla ve döndür
 
+            }
+        }
+        */
+        public List<CarDetailDto> GetCarDetails()
+        {
+            using (CarRentalDBContext context = new CarRentalDBContext())
+            {
+                var result = from c in context.Cars // Cars tablosunu seç
+                             join b in context.Brands // Brands tablosu ile birleştir, ilişkisel verileri varsa
+                             on c.BrandId equals b.BrandId
+                             join clr in context.Colors // Colors tablosu ile birleştir, ilişkisel verileri varsa
+                             on c.ColorId equals clr.ColorId
+                             select new CarDetailDto() // Aracın özelliklerini göstermek için oluşturularn veri aktarım objesine hangi tablonun hangi kısmı kullanılacaksa ata
+                             {
+                                 CarName = c.CarName, BrandName = b.BrandName, ColorName = clr.ColorName, DailyPrice = c.DailyPrice
+                             };
+
+                return result.ToList(); // IQueryable.ToList()
             }
         }
     }
