@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -16,59 +18,69 @@ namespace Business.Concrete
             _iCarDal = iCarDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
             if (car.CarName.Length >= 2 && car.DailyPrice > 0)
             {
                 _iCarDal.Add(car);
+                return new SuccessResult(Messages.Added);
             }
             else
             {
-                Console.WriteLine("The car description must contain at least two characters!\n" +
-                    "The daily price of the car must be greater than zero!");
+                return new ErrorResult(Messages.CarCanNotAdded);
             }
         }
-        public void Update(Car car)
+
+        public IResult Update(Car car)
         {
             if (car.CarName.Length >= 2 && car.DailyPrice > 0)
             {
                 _iCarDal.Update(car);
+                return new SuccessResult(Messages.Updated);
+
             }
             else
             {
-                Console.WriteLine("The car description must contain at least two characters!/n" +
-                    "The daily price of the car must be greater than zero!");
+                return new ErrorResult(Messages.CarCanNotUpdated);
             }
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
-            _iCarDal.Delete(car);
+            try
+            {
+                _iCarDal.Delete(car);
+                return new SuccessResult(Messages.Deleted);
+            }
+            catch (Exception)
+            {
+                throw new Exception("A system error occurs on deletion!");
+            }
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _iCarDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(), Messages.GetAll);
         }
 
-        public Car GetById(int carId)
+        public IDataResult<Car> GetById(int carId)
         {
-            return _iCarDal.Get(c => c.CarId == carId);
+            return new SuccessDataResult<Car>(_iCarDal.Get(c => c.CarId == carId), Messages.GetCarByCarId);
         }
 
-        public List<Car> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            return _iCarDal.GetAll(c => c.BrandId == brandId);
+            return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(c => c.BrandId == brandId), Messages.GetCarsByBrandId);
         }
 
-        public List<Car> GetCarsByColorId(int colorId)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            return _iCarDal.GetAll(c => c.ColorId == colorId);
+            return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(c => c.ColorId == colorId), Messages.GetCarsByColorId);
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _iCarDal.GetCarDetails();
-        }        
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(), Messages.GetCarsWithDetails);
+        }
     }
 }
