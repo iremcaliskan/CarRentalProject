@@ -20,7 +20,100 @@ namespace ConsoleUI
 
             //BrandWithResultAndDataResultTest();
 
-            CarWithResultAndDataResultTest();
+            //CarWithResultAndDataResultTest();
+
+            //BrandManager brandManager = new BrandManager(new EfBrandDal());
+            //brandManager.Add(new Brand { BrandName = "Volkswagen" });
+            //brandManager.Add(new Brand { BrandName = "Volvo" });
+            //brandManager.Add(new Brand { BrandName = "BMW" });
+            //brandManager.Add(new Brand { BrandName = "Mercedes" });
+            //brandManager.Add(new Brand { BrandName = "Jaguar" });
+            //brandManager.Add(new Brand { BrandName = "Chrysler" });
+
+            //var result = brandManager.GetAll();
+            //if (result.Success)
+            //{
+            //    foreach (var brand in result.Data)
+            //    {
+            //        Console.WriteLine(brand.BrandName);
+            //    }
+            //}
+            //ColorManager colorManager = new ColorManager(new EfColorDal());
+            //colorManager.Add(new Color { ColorName = "Siyah" });
+            //colorManager.Add(new Color { ColorName = "Beyaz" });
+            //colorManager.Add(new Color { ColorName = "Gri" });
+            //colorManager.Add(new Color { ColorName = "Mavi" });
+
+            //var result2 = colorManager.GetAll();
+            //if (result.Success)
+            //{
+            //    foreach (var color in result2.Data)
+            //    {
+            //        Console.WriteLine(color.ColorName);
+            //    }
+            //}
+
+            //CarManager carManager = new CarManager(new EfCarDal());
+            //carManager.Add(new Car { BrandId = 2, CarName = "Phaeton", ColorId = 4, DailyPrice = 120000, ModelYear = "2003", Description = "Volkswagen’in Amiral Gemisi" });
+            //carManager.Add(new Car { BrandId = 3, CarName = "S80", ColorId = 2, DailyPrice = 80000, ModelYear = "2000", Description = "Volvo S80; çıkış motoru 2.0 litre olan, bakım ve vergi avantajı yüksek bir arabadır" });
+            //carManager.Add(new Car { BrandId = 4, CarName = "BMW 7", ColorId = 2, DailyPrice = 82000, ModelYear = "2001", Description = "BMW’nin Amiral Gemisi" });
+            //carManager.Add(new Car { BrandId = 5, CarName = "Mercedes S", ColorId = 4, DailyPrice = 64000, ModelYear = "1999", Description = "İlk gergili emniyet kemerinin kullanıldığı arabadır" });
+            //carManager.Add(new Car { BrandId = 6, CarName = "X-TYPE", ColorId = 2, DailyPrice = 72000, ModelYear = "2004", Description = "2006 yılında üretim sonlandırılmasından sonra daha değerli olmuştur" });
+            //carManager.Add(new Car { BrandId = 7, CarName = "300M", ColorId = 2, DailyPrice = 56000, ModelYear = "1999", Description = "İthalat Savaşçısı" });
+            //carManager.Add(new Car { BrandId = 1, CarName = "Accord", ColorId = 1, DailyPrice = 57000, ModelYear = "2003", Description = "Japon işçiliğinin kalitesini hissettiriyor" });
+
+            //var result3 = carManager.GetAll();
+            //if (result3.Success)
+            //{
+            //    foreach (var car in result3.Data)
+            //    {
+            //        Console.WriteLine("CarId:{0} BrandId:{1} CarName:{2} ColorId:{3} DailyPrice:{4} ModelYear:{5}, Description:{6}",
+            //            car.CarId, car.BrandId, car.CarName, car.ColorId, car.DailyPrice, car.ModelYear, car.Description);
+            //    }
+            //}
+
+            //UserManager userManager = new UserManager(new EfUserDal());
+            //userManager.Add(new User { FirstName = "İrem", LastName = "Çalışkan", Email = "iremcaliskan0@gmail.com", Password = "123123" });
+            //userManager.Add(new User { FirstName = "Ceren", LastName = "Çalışkan", Email = "cerencaliskan@gmail.com", Password = "123123" });
+
+            //var result4 = userManager.GetAll();
+            //if (result4.Success)
+            //{
+            //    foreach (var user in result4.Data)
+            //    {
+            //        Console.WriteLine(user.FirstName);
+            //    }
+            //}
+
+            //CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            //customerManager.Add(new Customer { UserId = 1, CompanyName = "Öğrenci" });
+            //customerManager.Add(new Customer { UserId = 2, CompanyName = "Öğrenci" });
+            //customerManager.Add(new Customer { UserId = 3, CompanyName = "Yok" });
+
+            //var result = customerManager.GetAll();
+            //if (result.Success)
+            //{
+            //    foreach (var customer in result.Data)
+            //    {
+            //        Console.WriteLine(customer.CompanyName);
+            //    }
+            //}
+
+            //RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            //Console.WriteLine(rentalManager.Add(new Rental { CarId = 1, CustomerId = 1, RentDate = new DateTime(2021, 2, 25) }).Message);
+            //rentalManager.Add(new Rental { CarId = 2, CustomerId = 1, RentDate = new DateTime(2021, 2, 20), ReturnDate = new DateTime(2021, 2, 25) });
+            //rentalManager.Add(new Rental { CarId = 3, CustomerId = 2, RentDate = new DateTime(2021, 2, 20), ReturnDate = new DateTime(2021, 2, 25) });
+
+            //var result = rentalManager.GetAll();
+            //if (result.Success)
+            //{
+            //    foreach (var rental in result.Data)
+            //    {
+            //        Console.WriteLine(rental.RentDate);
+            //    }
+            //}
+
+
         }
 
         private static void CarWithResultAndDataResultTest()

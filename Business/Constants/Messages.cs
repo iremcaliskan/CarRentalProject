@@ -10,11 +10,14 @@ namespace Business.Constants
         public static string BrandCanNotAdded = "An error occurs on addition about naming that must contain at least two characters";
         public static string ColorCanNotAdded = "An error occurs on addition about naming that must contain at least three characters";
         public static string CarCanNotAdded = "An error occurs on addition about naming that must contain at least two characters or The daily price of the car must be greater than zero";
+        public static string CustomerCanNotAdded = "An error occurs on addition about naming that must contain at least three characters";
+
 
         public static string Updated = "Updated";
         public static string BrandCanNotUpdated = "An error occurs on modification about naming that must contain at least two characters";
         public static string ColorCanNotUpdated = "An error occurs on modification about naming that must contain at least three characters";
         public static string CarCanNotUpdated = "An error occurs on modification about naming that must contain at least two characters or The daily price of the car must be greater than zero";
+        public static string CustomerCanNotUpdated = "An error occurs on modification about naming that must contain at least three characters";
 
         public static string Deleted = "Deleted";
 
@@ -22,6 +25,9 @@ namespace Business.Constants
         public static string GetBrandByBrandId = "Brand is got by BrandId";
         public static string GetColorByColorId = "Color is got by ColorId";
         public static string GetCarByCarId = "Car is got by CarId";
+        public static string GetUserByUserId = "User is got by UserId";
+        public static string GetCustomerByUserId = "Customer is got by UserId";
+        public static string GetRentalByRentalId = "Rental is got by RentalId";
 
         public static string GetCarsByColorId = "Cars are listed by ColorId";
         public static string GetCarsByBrandId = "Cars are listed by BrandId";
