@@ -81,5 +81,23 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList(); // IQueryable.ToList()
             }
         }
+
+        public CarDetailDto GetCarDetailsById(Expression<Func<CarDetailDto, bool>> filter)//int id
+        {
+            using (CarRentalDBContext context = new CarRentalDBContext())
+            {
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.BrandId
+                             join clr in context.Colors
+                             on c.ColorId equals clr.ColorId
+                             select new CarDetailDto()
+                             {  
+                                 CarId = c.CarId, CarName = c.CarName, BrandName = b.BrandName, ColorName = clr.ColorName, DailyPrice = c.DailyPrice
+                             };
+
+                return result.SingleOrDefault(filter);
+            }
+        }
     }
 }

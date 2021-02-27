@@ -113,6 +113,29 @@ namespace ConsoleUI
             //    }
             //}
 
+            //CarManager carManager = new CarManager(new EfCarDal());
+            //var result = carManager.GetCarDetailsById(1);
+            //if (result.Success)
+            //{
+            //    Console.WriteLine("{0} {1} {2} {3}", result.Data.CarName, result.Data.BrandName
+            //        , result.Data.ColorName, result.Data.DailyPrice);
+            //}
+
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.GetRentalDetails();
+            if (result.Success)
+            {
+                foreach (var rental in result.Data)
+                {
+                    Console.WriteLine("{0} {1} {2} {3}", rental.CarName, rental.CustomerFirstName, rental.CustomerLastName, rental.RentDate);
+                }
+            }
+            Console.WriteLine("------------------------------------------------");
+            var result2 = rentalManager.GetRentalDetailsById(1);
+            if (result2.Success)
+            {
+                Console.WriteLine("{0} {1} {2} {3}", result2.Data.CarName, result2.Data.CustomerFirstName, result2.Data.CustomerLastName, result2.Data.RentDate);
+            }
 
         }
 

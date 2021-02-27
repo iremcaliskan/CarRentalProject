@@ -26,8 +26,12 @@ namespace Business.Constants
         public static string GetColorByColorId = "Color is got by ColorId";
         public static string GetCarByCarId = "Car is got by CarId";
         public static string GetUserByUserId = "User is got by UserId";
+
         public static string GetCustomerByUserId = "Customer is got by UserId";
         public static string GetRentalByRentalId = "Rental is got by RentalId";
+        public static string GetCarDetailsById = "Car is detailed by Id";
+        public static string GetRentalDetails = "Rentals Details are listed";
+        public static string GetRentalDetailsById = "Rental Details are listed by Id";
 
         public static string GetCarsByColorId = "Cars are listed by ColorId";
         public static string GetCarsByBrandId = "Cars are listed by BrandId";

@@ -18,5 +18,7 @@ namespace DataAccess.Abstract
         void Delete(Car car);
         */
         List<CarDetailDto> GetCarDetails(); // Özel metodu
+        CarDetailDto GetCarDetailsById(Expression<Func<CarDetailDto, bool>> filter); // Özel metodu
+
     }
 }

@@ -19,5 +19,8 @@ namespace Business.Abstract
         IResult Delete(Car car); // void yerine IResult
 
         IDataResult<List<CarDetailDto>> GetCarDetails(); // Verilen özellik listesine göre(join) arabaların detaylarını getir + operasyonun başarı durumuna göre mesaj ver
+
+        IDataResult<CarDetailDto>GetCarDetailsById(int carId); // Özel metodu
+
     }
 }
