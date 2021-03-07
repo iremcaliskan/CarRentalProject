@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Results;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -17,22 +19,30 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
+        [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
+            /*
             if (!user.Email.Contains("@"))
             {
                 return new ErrorResult("Email format is wrong!");
             }
+            */
+
             _userDal.Add(user);
             return new SuccessResult(Messages.Added);
         }
 
+        [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
+            /*
             if (!user.Email.Contains("@"))
             {
                 return new ErrorResult("Email format is wrong!");
             }
+            */
+
             _userDal.Update(user);
             return new SuccessResult(Messages.Updated);
         }

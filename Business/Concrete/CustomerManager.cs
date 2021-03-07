@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Results;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -18,22 +20,30 @@ namespace Business.Concrete
             _customerDal = customerDal;
         }
 
+        [ValidationAspect(typeof(CustomerValidator))]
         public IResult Add(Customer customer)
         {
+            /*
             if (customer.CompanyName.Length < 3)
             {
                 return new ErrorResult(Messages.CustomerCanNotAdded);
             }
+            */
+
             _customerDal.Add(customer);
             return new SuccessResult(Messages.Added);
         }
 
+        [ValidationAspect(typeof(CustomerValidator))]
         public IResult Update(Customer customer)
         {
+            /*
             if (customer.CompanyName.Length < 3)
             {
                 return new ErrorResult(Messages.CustomerCanNotUpdated);
             }
+            */
+
             _customerDal.Update(customer);
             return new SuccessResult(Messages.Updated);
         }

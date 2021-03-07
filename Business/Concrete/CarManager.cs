@@ -1,9 +1,13 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Results;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Results;
+using Core.Aspects;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,21 +22,39 @@ namespace Business.Concrete
             _iCarDal = iCarDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))] // Ekleme işleminden önce araya gir doğrulamak için, CarValidator kullanarak doğrula!
         public IResult Add(Car car)
         {
-            if (car.CarName.Length >= 2 && car.DailyPrice > 0)
-            {
-                _iCarDal.Add(car);
-                return new SuccessResult(Messages.Added);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CarCanNotAdded);
-            }
+            //var context = new ValidationContext<Car>(car); // Gelen Car için Car türünde Doğrulama Context'i oluştur.
+            //CarValidator carValidator = new CarValidator(); // Ne ile doğrulanacak
+            //var result = carValidator.Validate(context); // CarValidator contexti doğrulayacak
+
+            //if (!result.IsValid)
+            //{
+            //    throw new ValidationException(result.Errors);
+            //}
+            /* Fluent Validation da yazılan doğrulama Class'ının kurallarını kullanarak ilgili nesneyi 
+             * doğrulamanın en kötü yolu(spaghetti) budur.
+             */
+
+            // Tool haline getirilerek tekrar tekrar yazılması engellenecek.
+            //ValidationTool.Validate(new CarValidator(), car); // AOP yapıldı.
+
+            /* Log, CacheRemove, Performans, Transaction, Yetkilendirme gibi yönetimler hepsi burada 
+             * olacağı için AOP kullanılması gerekir.
+             */
+
+            // Business Codes
+
+            _iCarDal.Add(car);
+
+            return new SuccessResult(Messages.Added);
         }
 
+        [ValidationAspect(typeof(CarValidator))] // Güncelleme işlemi öncesinde araya gir, CarValidator ile doğrula
         public IResult Update(Car car)
         {
+            /*
             if (car.CarName.Length >= 2 && car.DailyPrice > 0)
             {
                 _iCarDal.Update(car);
@@ -43,6 +65,10 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.CarCanNotUpdated);
             }
+            */
+            _iCarDal.Update(car);
+
+            return new SuccessResult(Messages.Updated);
         }
 
         public IResult Delete(Car car)
@@ -54,7 +80,7 @@ namespace Business.Concrete
             }
             catch (Exception)
             {
-                throw new Exception("A system error occurs on deletion!");
+                throw new Exception("An error occurs on deletion!");
             }
         }
 

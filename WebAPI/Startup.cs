@@ -30,24 +30,35 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<ICarService, CarManager>(); // Arkaplanda referans oluþturur, newler
-            services.AddSingleton<ICarDal, EfCarDal>(); // ICarDal baðýmlýlýðý görürsen anlamý EfCarDal
+            //services.AddSingleton<ICarService, CarManager>(); // Arkaplanda referans oluþturur, newler
+            //services.AddSingleton<ICarDal, EfCarDal>(); // ICarDal baðýmlýlýðý görürsen anlamý EfCarDal
 
-            services.AddSingleton<IBrandService, BrandManager>();
-            services.AddSingleton<IBrandDal, EfBrandDal>();
+            //services.AddSingleton<IBrandService, BrandManager>();
+            //services.AddSingleton<IBrandDal, EfBrandDal>();
 
-            services.AddSingleton<IColorService, ColorManager>();
-            services.AddSingleton<IColorDal, EfColorDal>();
+            //services.AddSingleton<IColorService, ColorManager>();
+            //services.AddSingleton<IColorDal, EfColorDal>();
 
-            services.AddSingleton<ICustomerService, CustomerManager>();
-            services.AddSingleton<ICustomerDal, EfCustomerDal>();
+            //services.AddSingleton<ICustomerService, CustomerManager>();
+            //services.AddSingleton<ICustomerDal, EfCustomerDal>();
 
-            services.AddSingleton<IRentalService, RentalManager>();
-            services.AddSingleton<IRentalDal, EfRentalDal>();
+            //services.AddSingleton<IRentalService, RentalManager>();
+            //services.AddSingleton<IRentalDal, EfRentalDal>();
 
-            services.AddSingleton<IUserService, UserManager>();
-            services.AddSingleton<IUserDal, EfUserDal>();
+            //services.AddSingleton<IUserService, UserManager>();
+            //services.AddSingleton<IUserDal, EfUserDal>();
 
+            // Autofac/Ninject/CastleWindsor/StructureMap/LightInject/DryInject gibi yapýlar IoC Container mimarisi sunar.
+            // Yukarýdaki yapý Autofac'e çevrildi,
+            // Autofac de single instance üretimini saðlayan ayný iþi yapýyor.
+            /* Neden bu yapýldý? - Ýleride birden fazla API eklenirse, farklý servis yapýlarý mimarileri 
+             * eklenirse tüm yapýlandýrma ayarlarý bu Startup sýnýfýnda kalýr.
+             * Tekrar tekrar yazýlamasýnýn önlenmesi için Business'a eklenerek kullanýma açýk hale
+             * getirilmelidir.
+             * Dependency Resolvers: Loosely couple baðýlýlýðý(interface injection) çözümleme iþlemleri.
+             * .Net'in IoC yapýlandýrýlmasý kullanýlmadýðý için AutofacBusinessModule olarak yazýlan
+             * IoC Container kullanýlacak.
+             */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

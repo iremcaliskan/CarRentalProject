@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Results;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -19,33 +21,52 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
+            /*
             if (rental.ReturnDate != null)
             {
                 _rentalDal.Add(rental);
                 return new SuccessResult(Messages.Added);
             }
             return new ErrorResult("The car has not been returned, it can not be rented yet!");
+            */
+
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.Added);
         }
+
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
+            /*
             if (rental.ReturnDate != null)
             {
                 _rentalDal.Update(rental);
                 return new SuccessResult(Messages.Updated);
             }
             return new ErrorResult("The car has not been returned, it can not be updated yet!");
+            */
+
+            _rentalDal.Update(rental);
+            return new SuccessResult(Messages.Updated);
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Delete(Rental rental)
         {
+            /*
             if (rental.ReturnDate != null)
             {
                 _rentalDal.Delete(rental);
                 return new SuccessResult(Messages.Deleted);
             }
             return new ErrorResult("The car has not been returned, it can not be deleted yet!");
+            */
+
+            _rentalDal.Delete(rental);
+            return new SuccessResult(Messages.Deleted);
         }
 
         public IDataResult<List<Rental>> GetAll()
