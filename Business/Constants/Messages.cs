@@ -38,5 +38,11 @@ namespace Business.Constants
         public static string GetCarsWithDetails = "Cars are listed with own details";
         public static string GetCarWithDetails = "Car is got with own details by CarId.";
 
+        public static string CarImageLimitExceeded = "More than 5 images can not be added to the system";
+
+        public static string FileAdded = "File is added!";
+        public static string FileUpdated = "File is added!";
+        public static string FileDeleted = "File is added!";
+
     }
 }

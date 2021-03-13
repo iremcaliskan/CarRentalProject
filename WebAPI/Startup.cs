@@ -4,6 +4,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +31,7 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             //services.AddSingleton<ICarService, CarManager>(); // Arkaplanda referans oluþturur, newler
             //services.AddSingleton<ICarDal, EfCarDal>(); // ICarDal baðýmlýlýðý görürsen anlamý EfCarDal
 
@@ -59,6 +61,7 @@ namespace WebAPI
              * .Net'in IoC yapýlandýrýlmasý kullanýlmadýðý için AutofacBusinessModule olarak yazýlan
              * IoC Container kullanýlacak.
              */
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

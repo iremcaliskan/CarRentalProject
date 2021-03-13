@@ -41,6 +41,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
             builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
 
+            builder.RegisterType<CarImageManager>().As<ICarImageService>().SingleInstance();
+            builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();
+
             // .Net'e kendi IoC yapılandırması yerine AutofacBusinessModule'ünün kullanılcağı belirtildi.
             // Program.cs'e Cofiguration yapıldı.
 
