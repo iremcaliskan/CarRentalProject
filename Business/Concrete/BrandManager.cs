@@ -20,7 +20,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        [ValidationAspect(typeof(BrandValidator))] // Ekleme işleminden önce araya gir doğrulamak için, BrandValidator kullanarak doğrula!
+        [ValidationAspect(typeof(BrandValidator))] // Ekleme işleminden önce araya gir yapısal doğrulama için, BrandValidator kullanarak doğrula
         public IResult Add(Brand brand)
         {
             /*
@@ -29,6 +29,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.BrandCanNotAdded);
             }
             */
+
             _brandDal.Add(brand);
 
             return new SuccessResult(Messages.Added);
@@ -58,7 +59,7 @@ namespace Business.Concrete
             }
             catch (Exception)
             {
-                throw new Exception("An error occurs on deletion!");
+                throw new Exception(Messages.ErrorOnDeleted);
             }
             
         }
@@ -71,6 +72,12 @@ namespace Business.Concrete
         public IDataResult<Brand> GetById(int brandId)
         {
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == brandId), Messages.GetBrandByBrandId);
+        }
+
+        public IDataResult<List<Brand>> GetByName(string name)
+        {
+            var result = _brandDal.GetAll(b=> b.BrandName.Contains(name));
+            return new SuccessDataResult<List<Brand>>(result); // Search for a name
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DataAccess.Concrete.EntityFramework
         // override On...
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=CarRental;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=RentACarDb;Trusted_Connection=true");
         } // Db Bağlantısı değişti ve DbSet'ler bağlandı.
 
         

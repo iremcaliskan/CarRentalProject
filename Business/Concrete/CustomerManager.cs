@@ -5,6 +5,7 @@ using Core.Aspects;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -66,9 +67,24 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.GetAll);
         }
 
-        public IDataResult<Customer> GetById(int userId)
+        public IDataResult<Customer> GetById(int customerId)
         {
-            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.UserId == userId), Messages.GetCustomerByUserId);
-        }      
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerId == customerId), Messages.GetCustomerByUserId);
+        }
+
+        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
+        {
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(), "Customer details are listed!");
+        }
+
+        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails(string key)
+        {
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(c => c.LastName.Contains(key)), "Customer is found by keyword!");
+        }
+
+        public IDataResult<CustomerDetailDto> GetCustomerDetailsById(int customerId)
+        {
+            return new SuccessDataResult<CustomerDetailDto>(_customerDal.GetCustomerDetailsById(c => c.CustomerId == customerId), "Customer is found!");
+        }
     }
 }

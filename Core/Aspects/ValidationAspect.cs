@@ -22,6 +22,8 @@ namespace Core.Aspects
             _validatorType = validatorType; // Doğrulayıcı set edilir.
         }
 
+        // Execute before method and validate parameters of method
+        // <param name="invocation"></param>
         protected override void OnBefore(IInvocation invocation)
         { // OnBefore ezildi,
             var validator = (IValidator)Activator.CreateInstance(_validatorType); // Reflection, çalışma anında newle,

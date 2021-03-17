@@ -20,64 +20,40 @@ namespace Core.Utilities.Helpers
          * ("X") ise {0x00000000, 0x0000, 0x0000 {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}} gibi bi sonuç döndürür.
          */
 
+        static string directory = Directory.GetCurrentDirectory() + @"\wwwroot\";
+        static string path = @"images\";
         public static string Add(IFormFile file)
         {
-            var sourcepath = Path.GetTempFileName();
-            if (file.Length > 0)
+            string extension = Path.GetExtension(file.FileName).ToUpper();
+            string newFileName = Guid.NewGuid().ToString("N") + extension;
+
+            if (!Directory.Exists(directory + path))
             {
-                using (var uploading = new FileStream(sourcepath, FileMode.Create)) // Dosya okuma yazma
-                {
-                    file.CopyTo(uploading);
-                }
+                Directory.CreateDirectory(directory + path);
             }
 
-            var result = NewPath(file);
+            using (FileStream fileStream = File.Create(directory + path + newFileName))
+            {
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+            }
 
-            File.Move(sourcepath, result);
-
-            return result;
+            return (path + newFileName).Replace("\\", "/");
         }
 
-        public static IResult Delete(string path)
+        public static string Update(IFormFile file, string oldImagePath)
         {
-            try
-            {
-                File.Delete(path);
-            }
-            catch (Exception exception)
-            {
-                return new ErrorResult(exception.Message);
-            }
-
-            return new SuccessResult();
+            Delete(oldImagePath);
+            return Add(file);
         }
 
-        public static string Update(string sourcePath, IFormFile file)
+        public static void Delete(string imagePath)
         {
-            var result = NewPath(file).ToString();
-            if (sourcePath.Length > 0)
+            if (File.Exists(directory + imagePath.Replace("/", "\\"))
+                && Path.GetFileName(imagePath) != "logo.jpg")
             {
-                using (var stream = new FileStream(result, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
+                File.Delete(directory + imagePath.Replace("/", "\\"));
             }
-
-            File.Delete(sourcePath);
-
-            return result;
-        }
-
-        public static string NewPath(IFormFile file)
-        { // Dosya yolu oluşturma
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileExtension = fileInfo.Extension;
-
-            string path = Environment.CurrentDirectory + @"\wwwroot\uploads";
-            var newPath = Guid.NewGuid().ToString("N") +  fileExtension; // Kendi verdiğim GUID ile dosyalanacak
-
-            string result = $@"{path}\{newPath}";
-            return result;
         }
     }
 }

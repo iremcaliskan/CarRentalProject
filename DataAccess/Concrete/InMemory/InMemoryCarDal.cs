@@ -16,11 +16,11 @@ namespace DataAccess.Concrete.InMemory
         {
             _cars = new List<Car>()
             {
-                new Car() {CarId = 1, BrandId = 1, ColorId = 1, CarName = "A", Description = "Otomatik", ModelYear = "2010", DailyPrice = 89999.99m},
-                new Car() {CarId = 2, BrandId = 1, ColorId = 2, CarName = "B", Description = "Otomatik", ModelYear = "2012", DailyPrice = 129999.99m},
-                new Car() {CarId = 3, BrandId = 1, ColorId = 3, CarName = "C", Description = "Manuel", ModelYear = "2010", DailyPrice = 79999.99m},
-                new Car() {CarId = 4, BrandId = 2, ColorId = 1, CarName = "D", Description = "Otomatik", ModelYear = "2010", DailyPrice = 259999.99m},
-                new Car() {CarId = 5, BrandId = 2, ColorId = 2, CarName = "E", Description = "Otomatik ", ModelYear = "2010", DailyPrice = 281000}
+                new Car() {CarId = 1, BrandId = 1, ColorId = 1, CarName = "A", Description = "Otomatik", ModelYear = 2010, DailyPrice = 89999.99m},
+                new Car() {CarId = 2, BrandId = 1, ColorId = 2, CarName = "B", Description = "Otomatik", ModelYear = 2012, DailyPrice = 129999.99m},
+                new Car() {CarId = 3, BrandId = 1, ColorId = 3, CarName = "C", Description = "Manuel", ModelYear = 2010, DailyPrice = 79999.99m},
+                new Car() {CarId = 4, BrandId = 2, ColorId = 1, CarName = "D", Description = "Otomatik", ModelYear = 2010, DailyPrice = 259999.99m},
+                new Car() {CarId = 5, BrandId = 2, ColorId = 2, CarName = "E", Description = "Otomatik ", ModelYear = 2010, DailyPrice = 281000}
             };
         }
 
@@ -73,6 +73,16 @@ namespace DataAccess.Concrete.InMemory
         }
 
         public CarDetailDto GetCarDetailsById(Expression<Func<CarDetailDto, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarDetailDto> GetCarDetails(Expression<Func<CarDetailDto, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarImagesDto> GetCarImageDetails(Expression<Func<CarImagesDto, bool>> filter = null)
         {
             throw new NotImplementedException();
         }

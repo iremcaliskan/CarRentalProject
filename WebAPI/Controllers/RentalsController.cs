@@ -32,9 +32,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int rentalId)
+        public IActionResult GetById(int id)
         {
-            var result = _rentalService.GetById(rentalId);
+            var result = _rentalService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -54,9 +54,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getdetailsbyid")]
-        public IActionResult GetRentalDetailsById(int rentalId)
+        public IActionResult GetRentalDetailsById(int id)
         {
-            var result = _rentalService.GetRentalDetailsById(rentalId);
+            var result = _rentalService.GetRentalDetailsById(id);
             if (result.Success)
             {
                 return Ok(result);

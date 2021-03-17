@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Core.Utilities.Business
 {
+    // General Business Rules Validator 
     public class BusinessRules
     {
         public static IResult Run(params IResult[] logics)

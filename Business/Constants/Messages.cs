@@ -20,6 +20,7 @@ namespace Business.Constants
         public static string CustomerCanNotUpdated = "An error occurs on modification about naming that must contain at least three characters";
 
         public static string Deleted = "Deleted";
+        public static string ErrorOnDeleted = "An error occurs on deletion!";
 
         public static string GetAll = "All is listed";
         public static string GetBrandByBrandId = "Brand is got by BrandId";
@@ -43,6 +44,9 @@ namespace Business.Constants
         public static string FileAdded = "File is added!";
         public static string FileUpdated = "File is added!";
         public static string FileDeleted = "File is added!";
+
+        public static string[] ValidImageFileTypes = { ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".GIF", ".BMP", ".ICO" };
+        public static string InvalidImageExtension = "Geçersiz dosya uzantısı, fotoğraf için kabul edilen uzantılar" + string.Join(",", ValidImageFileTypes);
 
     }
 }

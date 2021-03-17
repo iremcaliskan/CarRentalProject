@@ -9,18 +9,20 @@ namespace Business.Abstract
 {
     public interface ICarService
     {
-        IDataResult<List<Car>> GetAll(); // Tüm arabaları listele + operasyonun başarı durumuna göre mesaj ver
-        IDataResult<Car> GetById(int carId); // CarId'ye göre araba getir + operasyonun başarı durumuna göre mesaj ver
-        IDataResult<List<Car>> GetCarsByBrandId(int brandId); // BrandId'ye göre araba listesini getir + operasyonun başarı durumuna göre mesaj ver
-        IDataResult<List<Car>> GetCarsByColorId(int colorId); // ColorId'ye göre araba listesini getir + operasyonun başarı durumuna göre mesaj ver
+        IDataResult<List<Car>> GetAll();
+        IDataResult<Car> GetById(int carId);
+        IDataResult<List<Car>> GetCarsByBrandId(int brandId);
+        IDataResult<List<Car>> GetCarsByColorId(int colorId);
 
-        IResult Add(Car car); // void yerine IResult
-        IResult Update(Car car); // void yerine IResult
-        IResult Delete(Car car); // void yerine IResult
+        IResult Add(Car car);
+        IResult Update(Car car);
+        IResult Delete(Car car);
 
         IDataResult<List<CarDetailDto>> GetCarDetails(); // Verilen özellik listesine göre(join) arabaların detaylarını getir + operasyonun başarı durumuna göre mesaj ver
 
-        IDataResult<CarDetailDto>GetCarDetailsById(int carId); // Özel metodu
+        IDataResult<CarDetailDto>GetCarDetailsById(int carId);
+        IDataResult<List<CarImagesDto>> GetCarImageDetails();
+        IDataResult<List<CarImagesDto>> GetCarImageDetailsByCarId(int carId);
 
     }
 }

@@ -8,6 +8,6 @@ namespace DataAccess.Abstract
 {
     public interface ICarImageDal : IEntityRepository<CarImage>
     {
-        //bool IsExist(int carImageId);
+        bool IsExist(int carImageId);
     }
 }

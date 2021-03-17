@@ -31,10 +31,21 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid")] // api/brands/getbyid?brandId=num
-        public IActionResult GetById(int brandId)
+        [HttpGet("getbyid")] // api/brands/getbyid?id=num
+        public IActionResult GetById(int id)
         {
-            var result = _brandService.GetById(brandId);
+            var result = _brandService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyname")] // api/brands/getbyname?name=str
+        public IActionResult GetByName(string name)
+        {
+            var result = _brandService.GetByName(name);
             if (result.Success)
             {
                 return Ok(result);
@@ -74,6 +85,5 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-
     }
 }

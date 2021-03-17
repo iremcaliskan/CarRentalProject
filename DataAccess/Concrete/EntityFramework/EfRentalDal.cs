@@ -20,12 +20,13 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (CarRentalDBContext context = new CarRentalDBContext())
             {
+                // Customer User DTO
                 var customer = from c in context.Customers
                                join u in context.Users
-                               on c.UserId equals u.UserId
+                               on c.CustomerId equals u.UserId
                                select new CustomerDetailDto()
                                {
-                                   UserId = c.UserId,
+                                   CustomerId = c.CustomerId,
                                    FirstName = u.FirstName,
                                    LastName = u.LastName
                                };
@@ -34,7 +35,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join c in context.Cars
                              on r.CarId equals c.CarId
                              join cstmr in customer
-                             on r.CustomerId equals cstmr.UserId
+                             on r.CustomerId equals cstmr.CustomerId
                              select new RentalDetailDto()
                              {
                                  RentalId = r.RentalId,
@@ -56,10 +57,10 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var customer = from c in context.Customers
                                join u in context.Users
-                               on c.UserId equals u.UserId
+                               on c.CustomerId equals u.UserId
                                select new CustomerDetailDto()
                                {
-                                   UserId = c.UserId,
+                                   CustomerId = c.CustomerId,
                                    FirstName = u.FirstName,
                                    LastName = u.LastName
                                };
@@ -68,7 +69,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join c in context.Cars
                              on r.CarId equals c.CarId
                              join cstmr in customer
-                             on r.CustomerId equals cstmr.UserId
+                             on r.CustomerId equals cstmr.CustomerId
                              select new RentalDetailDto()
                              {
                                  RentalId = r.RentalId,

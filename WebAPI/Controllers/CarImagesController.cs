@@ -21,8 +21,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)
+        public IActionResult Add([FromForm] IFormFile file, [FromForm] CarImage carImage)
         {
+            if (file == null)
+            {
+                return BadRequest("Boş resim gönderemezsin!");
+            }
+
             var result = _carImageService.Add(file, carImage);
             if (result.Success)
             {
@@ -31,10 +36,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("delete")]
-        public IActionResult Delete([FromForm(Name = ("CarImageId"))] int carImageId)
+        [HttpDelete("delete")]
+        public IActionResult Delete(CarImage carImage)
         {
-            var carImage = _carImageService.Get(carImageId).Data;
             var result = _carImageService.Delete(carImage);
             if (result.Success)
             {
@@ -43,22 +47,15 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("update")]
-        public IActionResult Update([FromForm(Name = ("Image"))] IFormFile file, [FromForm(Name = ("CarImageId"))] int carImageId)
+        [HttpPut("update")]
+        public IActionResult Update([FromForm] IFormFile file, [FromForm] CarImage carImage)
         {
-            var carImage = _carImageService.Get(carImageId).Data;
-            var result = _carImageService.Update(file, carImage);
-            if (result.Success)
+            if (file == null)
             {
-                return Ok(result);
+                return BadRequest("Boş resim gönderemezsin!");
             }
-            return BadRequest(result);
-        }
 
-        [HttpGet("getbyid")] // api/carImages/getbyid?carImageId=num
-        public IActionResult GetById([FromForm(Name = ("CarImageId"))] int carImageId)
-        {
-            var result = _carImageService.Get(carImageId);
+            var result = _carImageService.Update(file, carImage);
             if (result.Success)
             {
                 return Ok(result);
@@ -77,10 +74,21 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getimagesbycarid")] // api/carImages/getimagesbycarid?carId=num
-        public IActionResult GetImagesByCarId([FromForm(Name = ("CarId"))] int carId)
+        [HttpGet("getbyid")] // api/carImages/getbyid?id=num
+        public IActionResult GetById([FromForm(Name = ("CarImageId"))] int id)
         {
-            var result = _carImageService.GetImagesByCarId(carId);
+            var result = _carImageService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getimagesbycarid")] // api/carImages/getimagesbycarid?id=num
+        public IActionResult GetImagesByCarId([FromForm(Name = ("CarId"))] int id)
+        {
+            var result = _carImageService.GetImagesByCarId(id);
             if (result.Success)
             {
                 return Ok(result);

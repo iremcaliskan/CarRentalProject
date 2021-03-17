@@ -31,10 +31,43 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid")] // api/customers/getbyid?customerId=num
-        public IActionResult GetById(int userId)
+        [HttpGet("getbyid")] // api/customers/getbyid?id=num
+        public IActionResult GetById(int id)
         {
-            var result = _customerService.GetById(userId);
+            var result = _customerService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        
+        [HttpGet("getcustomerdetails")] // api/customers/getcustomerdetails
+        public IActionResult GetCustomerDetails()
+        {
+            var result = _customerService.GetCustomerDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcustomersearch")] // api/customers/getcustomersearch?key=str
+        public IActionResult GetCustomerDetails(string key)
+        {
+            var result = _customerService.GetCustomerDetails(key);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcustomerdetailsbyid")] // api/customers/getcustomerdetailsbyid?id=num
+        public IActionResult GetCustomerDetailsById(int id)
+        {
+            var result = _customerService.GetCustomerDetailsById(id);
             if (result.Success)
             {
                 return Ok(result);

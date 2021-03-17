@@ -19,6 +19,9 @@ namespace WebAPI
             CreateHostBuilder(args).Build().Run();
         }
 
+        /*
+        * Set default ioc container to autofac
+        */
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args) // Yayýn ortamý, server configuration
             .UseServiceProviderFactory(new AutofacServiceProviderFactory()) // Servis saðlayýcý fabrikasý olarak AutofacServiceProviderFactory

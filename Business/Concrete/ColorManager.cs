@@ -69,5 +69,10 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == colorId), Messages.GetColorByColorId);
         }
+
+        public IDataResult<List<Color>> GetByName(string key)
+        {
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(c => c.ColorName.Contains(key)), "Color is found by key!");
+        }
     }
 }

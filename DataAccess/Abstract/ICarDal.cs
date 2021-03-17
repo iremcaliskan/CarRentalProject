@@ -17,8 +17,11 @@ namespace DataAccess.Abstract
         void Update(Car car);
         void Delete(Car car);
         */
-        List<CarDetailDto> GetCarDetails(); // Özel metodu
-        CarDetailDto GetCarDetailsById(Expression<Func<CarDetailDto, bool>> filter); // Özel metodu
 
+        //List<CarDetailDto> GetCarDetails(); // Özel metodu
+        List<CarDetailDto> GetCarDetails(Expression<Func<CarDetailDto, bool>> filter = null);
+
+        CarDetailDto GetCarDetailsById(Expression<Func<CarDetailDto, bool>> filter); // Özel metodu
+        List<CarImagesDto> GetCarImageDetails(Expression<Func<CarImagesDto, bool>> filter = null);
     }
 }

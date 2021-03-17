@@ -295,7 +295,7 @@ namespace ConsoleUI
                 CarName = "Car Demo",
                 DailyPrice = 10,
                 Description = "Car Demo",
-                ModelYear = "2010"
+                ModelYear = 2010
             };
 
             //carManager.Add(demoCar);

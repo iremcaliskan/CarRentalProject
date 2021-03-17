@@ -31,10 +31,21 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid")] // api/colors/getbyid?colorId=num
-        public IActionResult GetById(int colorId)
+        [HttpGet("getbyid")] // api/colors/getbyid?id=num
+        public IActionResult GetById(int id)
         {
-            var result = _colorService.GetById(colorId);
+            var result = _colorService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyname")] // api/colors/getbyname?getbyname=str
+        public IActionResult GetByName(string name)
+        {
+            var result = _colorService.GetByName(name);
             if (result.Success)
             {
                 return Ok(result);
