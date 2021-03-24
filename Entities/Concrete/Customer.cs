@@ -8,7 +8,7 @@ namespace Entities.Concrete
 {
     public class Customer : IEntity
     {
-        [Key]
+        //[Key]
         public int CustomerId { get; set; }
         public string CompanyName { get; set; }
 

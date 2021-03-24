@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -15,7 +17,7 @@ namespace Business.Concrete
     {
         IUserDal _userDal;
         public UserManager(IUserDal userDal)
-        { // Oluşturulma anında bir veri erişim yöntemi isteyecek
+        {
             _userDal = userDal;
         }
 
@@ -68,6 +70,16 @@ namespace Business.Concrete
         public IDataResult<User> GetById(int userId)
         {
             return new SuccessDataResult<User>(_userDal.Get(u=> u.UserId == userId), Messages.GetUserByUserId);
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user), Messages.UserClaimsListed);
+        }
+
+        public IDataResult<User> GetByMail(string email)
+        {
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email), Messages.UserFoundByEmail);
         }
     }
 }

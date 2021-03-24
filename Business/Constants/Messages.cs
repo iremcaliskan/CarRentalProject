@@ -48,5 +48,25 @@ namespace Business.Constants
         public static string[] ValidImageFileTypes = { ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".GIF", ".BMP", ".ICO" };
         public static string InvalidImageExtension = "Geçersiz dosya uzantısı, fotoğraf için kabul edilen uzantılar" + string.Join(",", ValidImageFileTypes);
 
+        public static string UserFoundByEmail = "User is found by email!";
+        public static string UserClaimsListed = "User's claims are listed!";
+        public static string UserAdd = "User is added";
+        public static string UserGetByMail = "User is got by email";
+        public static string UserNotFound = "User is not found";
+        public static string PasswordError = "Password is not correct";
+        public static string SuccessfulLogin = "Login is successful";
+        public static string UserAlreadyExists = "User is already exist in the system";
+        public static string UserRegistered = "User is registered";
+        public static string AccessTokenCreated = "Access token is created";
+
+        public static string AuthorizationDenied = "Authorization is denied";
+
+        public static string CarImageDetailsByCarId = "Images are listed by car id!";
+        public static string CarImageDetails = "Car Images are listed!";
+        public static string aa = "";
+
+
+
+
     }
 }

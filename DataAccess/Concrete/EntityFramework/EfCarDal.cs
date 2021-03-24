@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, CarRentalDBContext>, ICarDal
     {
-        /* Her sınıf için tekrarlanan aynı veri erişim yöntemine sahip  bu metotlar Base Class'tan inherit edilerek halledilir.
+        /* 
         public void Add(Car entity)
         {
             using (CarRentalDBContext context = new CarRentalDBContext())
@@ -101,9 +101,9 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = car.DailyPrice
                              };
                 
-                return filter == null // filtre null mı?
-                    ? result.ToList() // null ise tüm arabaların CarDetailDto bilgilerine göre bilgilerini seç, listele
-                    : result.Where(filter).ToList(); // null değil ise tüm arabaların CarDetailDto bilgilerine göre bilgilerini seç filtreyi uygula, lamda , ifadesine uaynları seç listede topla ve listele
+                return filter == null // filter is null?
+                    ? result.ToList() // if it is null, list of all cars with CarDetailDto informations
+                    : result.Where(filter).ToList();  // if it is not, list of all cars where the condition is satisfied with CarDetailDto informations
             }
         }
 
@@ -153,10 +153,9 @@ namespace DataAccess.Concrete.EntityFramework
                                  CreatedDate = carImage.CreatedDate
                              };
 
-                return filter == null // filtre null mı?
-                    ? result.ToList() // null ise DbSet Car sınıfını yani Cars Tablosunu seç, liste olarak döndür
-                    : result.Where(filter).ToList(); // null değil ise DbSet Car sınıfını yani Cars Tablosunu seç,
-                // filtreyi yani predicate, lamda ifadesini koşulunu sağlayanları seç(Where), listede topla ve döndür
+                return filter == null
+                    ? result.ToList()
+                    : result.Where(filter).ToList(); 
             }
         }
     }

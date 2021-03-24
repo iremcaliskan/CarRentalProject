@@ -11,6 +11,7 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Business.BusinessAspect.Autofac;
 
 namespace Business.Concrete
 {
@@ -84,6 +85,7 @@ namespace Business.Concrete
             }
         }
 
+        [SecuredOperation("Car.List")]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(), Messages.GetAll);
@@ -116,12 +118,12 @@ namespace Business.Concrete
 
         public IDataResult<List<CarImagesDto>> GetCarImageDetails()
         {
-            return new SuccessDataResult<List<CarImagesDto>>(_iCarDal.GetCarImageDetails(), "Car Images are listed!");
+            return new SuccessDataResult<List<CarImagesDto>>(_iCarDal.GetCarImageDetails(), Messages.CarImageDetails);
         }
 
         public IDataResult<List<CarImagesDto>> GetCarImageDetailsByCarId(int carId)
         {
-            return new SuccessDataResult<List<CarImagesDto>>(_iCarDal.GetCarImageDetails(c => c.CarId == carId), "Images are listed by car id!");
+            return new SuccessDataResult<List<CarImagesDto>>(_iCarDal.GetCarImageDetails(c => c.CarId == carId), Messages.CarImageDetailsByCarId);
         }
     }
 }

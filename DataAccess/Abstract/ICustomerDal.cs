@@ -10,7 +10,7 @@ namespace DataAccess.Abstract
 {
     public interface ICustomerDal : IEntityRepository<Customer>
     {
-        //ICustomerDal operasyonlarını IEntityRepository<Customer>'dan alır, Customer göndererek
+        // ICustomerDal gets its operation from IEntityRepository<Customer> with passing parameter as Customer, own type
         List<CustomerDetailDto> GetCustomerDetails(Expression<Func<CustomerDetailDto, bool>> filter = null);
         CustomerDetailDto GetCustomerDetailsById(Expression<Func<CustomerDetailDto, bool>> filter);
 

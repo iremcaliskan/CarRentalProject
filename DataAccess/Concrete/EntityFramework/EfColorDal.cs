@@ -10,7 +10,12 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfColorDal : EfEntityRepositoryBase<Color,CarRentalDBContext>, IColorDal
     {
-        /* Her sınıf için tekrarlanan aynı veri erişim yöntemine sahip  bu metotlar Base Class'tan inherit edilerek halledilir.
+        // All data access methods as CRUD, GetAll and Get operations are moved to Base class, Base class is in generic type it needs Entity and Context.
+        // A class inherits Base Class and give own Entity and Context.
+
+        // IColorDal is implemented but there is no special method for EfColorDal
+
+        /* 
         public void Add(Color entity)
         {
             throw new NotImplementedException();

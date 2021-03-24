@@ -14,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (CarRentalDBContext context = new CarRentalDBContext())
             {
-                return context.CarImages.Any(c => c.CarImageId == carImageId);
+                return context.CarImages.Any(c => c.CarImageId == carImageId); // Any returns type of boolean
             }
         }
     }

@@ -14,7 +14,8 @@ namespace DataAccess.Concrete.EntityFramework
 
     public class EfRentalDal : EfEntityRepositoryBase<Rental, CarRentalDBContext>, IRentalDal
     {
-        // Ef veri erişim yöntemlerini kendine uyarlayarak yapacak      
+        // EfRentalDal inherits operations from EfEntityRepositoryBase<Rental, CarRentalDBContext> by passing own type and context
+        // Also, if EfRentalDal has special methods, it gets method from IRentalDal so that implements method on it.
 
         public List<RentalDetailDto> GetRentalDetails(Expression<Func<RentalDetailDto, bool>> filter = null)
         {
@@ -46,8 +47,9 @@ namespace DataAccess.Concrete.EntityFramework
                              };
 
                 return filter == null
-                       ? result.ToList() // null ise Kiralanmış tüm arabaları döndürecek 
-                       : result.Where(filter).ToList(); // null değil ise filtreyi yani predicate, lamda ifadesindeki koşulu sağlayanları seç(Where), listede topla ve döndür            }
+                       ? result.ToList() // if filter is null return the all rentals list
+                       : result.Where(filter).ToList(); // if not, return the all rentals list that is specified by the filter/predicate/lamda
+                // Where, chooses elements by the given filter and gather all chosed elements in a list
             }
         }
 

@@ -10,7 +10,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfBrandDal : EfEntityRepositoryBase<Brand, CarRentalDBContext>,IBrandDal
     {
-        /* Her sınıf için tekrarlanan aynı veri erişim yöntemine sahip  bu metotlar Base Class'tan inherit edilerek halledilir.
+        /*
         public void Add(Brand entity)
         {
             throw new NotImplementedException();

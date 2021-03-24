@@ -8,12 +8,12 @@ namespace Business.Abstract
 {
     public interface IBrandService
     {
-        IDataResult<List<Brand>> GetAll(); // Tüm markaları listele + operasyon başarı durumuna görede mesaj ver
-        IDataResult<Brand> GetById(int brandId); // BrandId'ye göre ürün getir + operasyon başarı durumuna göre de mesaj ver
-        IDataResult<List<Brand>> GetByName(string brandName); // Markalar içerinde search
+        IDataResult<List<Brand>> GetAll();
+        IDataResult<Brand> GetById(int brandId);
+        IDataResult<List<Brand>> GetByName(string brandName); // Search
 
-        IResult Add(Brand brand); // void -- IResult
-        IResult Update(Brand brand); // void -- IResult
-        IResult Delete(Brand brand); // void -- IResult
+        IResult Add(Brand brand);
+        IResult Update(Brand brand);
+        IResult Delete(Brand brand);
     }
 }
