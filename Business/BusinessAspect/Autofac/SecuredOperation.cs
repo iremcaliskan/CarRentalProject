@@ -11,7 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Business.BusinessAspect.Autofac
 {
-    // JWT 
+    // JWT
+    // Users' roles
     public class SecuredOperation : MethodInterception
     {
         private string[] _roles; // User's roles information

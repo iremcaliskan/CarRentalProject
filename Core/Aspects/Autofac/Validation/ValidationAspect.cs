@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Core.Aspects
+namespace Core.Aspects.Autofac.Validation
 {
     public class ValidationAspect: MethodInterception
     { // Doğrulama bir araya girme işlemidir.

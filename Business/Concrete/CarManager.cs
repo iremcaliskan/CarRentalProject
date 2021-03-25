@@ -3,7 +3,6 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
-using Core.Aspects;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -12,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Business.BusinessAspect.Autofac;
+using Core.Aspects.Autofac.Validation;
+using Core.Aspects.Autofac.Caching;
 
 namespace Business.Concrete
 {
@@ -86,11 +87,13 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("Car.List")]
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(), Messages.GetAll);
         }
 
+        [CacheAspect]
         public IDataResult<Car> GetById(int carId)
         {
             return new SuccessDataResult<Car>(_iCarDal.Get(c => c.CarId == carId), Messages.GetCarByCarId);

@@ -1,5 +1,7 @@
 using Business.Abstract;
 using Business.Concrete;
+using Core.DependencyResolvers;
+using Core.Extensions;
 using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
@@ -37,12 +39,9 @@ namespace WebAPI
         {
             services.AddControllers();
 
-            //services.AddSingleton<ICarService, CarManager>(); // Arkaplanda referans oluþturur, newler
-            //services.AddSingleton<ICarDal, EfCarDal>(); // ICarDal baðýmlýlýðý görürsen anlamý EfCarDal
+            // Autofac/Ninject/CastleWindsor/StructureMap/LightInject/DryInject for IoC Container Architecture
+            // Autofac is used in this project
 
-            // Autofac/Ninject/CastleWindsor/StructureMap/LightInject/DryInject gibi yapýlar IoC Container mimarisi sunar.
-            // Yukarýdaki yapý Autofac'e çevrildi,
-            // Autofac de single instance üretimini saðlayan ayný iþi yapýyor.
             /* Neden bu yapýldý? - Ýleride birden fazla API eklenirse, farklý servis yapýlarý mimarileri 
              * eklenirse tüm yapýlandýrma ayarlarý bu Startup sýnýfýnda kalýr.
              * Tekrar tekrar yazýlamasýnýn önlenmesi için Business'a eklenerek kullanýma açýk hale
@@ -52,17 +51,14 @@ namespace WebAPI
              * IoC Container kullanýlacak.
              */
 
-            // API'ye bir yerden istek geldiðinde güvenlik tehdidi olarak algýlanýr, izin vermek için:
+            // Every request is percieved a threat by the system come to API. To allow them:
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin",
                     builder => builder.WithOrigins("http://localhost:3000"));
             });
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            // Sistemde JWT kullanýlacak ayarý:
-
+            // JWT Configuration:
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -80,12 +76,15 @@ namespace WebAPI
                                 };
                             });
 
-            ServiceTool.Create(services);
+            // The AddDependendyResolvers structure was established for the CoreModule added here and the modules to be added in the future.
+            services.AddDependencyResolvers(new ICoreModule[] { // params can be used too
+                new CoreModule()
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        { // Middlewares
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -97,9 +96,9 @@ namespace WebAPI
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            app.UseAuthentication(); // Claim, Roles
 
-            app.UseAuthorization();
+            app.UseAuthorization(); // Key
 
             app.UseEndpoints(endpoints =>
             {

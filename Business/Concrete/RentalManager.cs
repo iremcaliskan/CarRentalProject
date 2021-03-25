@@ -2,7 +2,8 @@
 using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
-using Core.Aspects;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,7 +19,7 @@ namespace Business.Concrete
         IRentalDal _rentalDal;
 
         public RentalManager(IRentalDal rentalDal)
-        { // Oluşturulma anında bir veri erişimi yöntemi alıyor
+        {
             _rentalDal = rentalDal;
         }
 
@@ -70,21 +71,25 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
+        [CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.GetAll);
         }
 
+        [CacheAspect]
         public IDataResult<Rental> GetById(int rentalId)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalId == rentalId), Messages.GetRentalByRentalId);
         }
 
+        [CacheAspect]
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.GetRentalDetails);
         }
 
+        [CacheAspect]
         public IDataResult<RentalDetailDto> GetRentalDetailsById(int rentalId)
         {
             return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDetailsById(r => r.RentalId == rentalId), Messages.GetRentalDetailsById);
