@@ -16,8 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Aspects\Autofac\Performance\" />
-    <Folder Include="Aspects\Autofac\Transaction\" />
     <Folder Include="CrossCuttingConcerns\Caching\Redis\" />
   </ItemGroup>
 

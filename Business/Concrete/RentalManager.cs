@@ -3,6 +3,7 @@ using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -23,7 +24,10 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
+        [SecuredOperation("rental.add")]
         [ValidationAspect(typeof(RentalValidator))]
+        [CacheRemoveAspect("IRentalService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(Rental rental)
         {
             /*
@@ -39,7 +43,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        [SecuredOperation("rental.update")]
         [ValidationAspect(typeof(RentalValidator))]
+        [CacheRemoveAspect("IRentalService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(Rental rental)
         {
             /*
@@ -55,7 +62,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
-        [ValidationAspect(typeof(RentalValidator))]
+        [SecuredOperation("rental.delete")]
+        [CacheRemoveAspect("IRentalService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Rental rental)
         {
             /*
@@ -71,24 +80,28 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
+        [SecuredOperation("rental.list")]
         [CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.GetAll);
         }
 
+        [SecuredOperation("rental.getid")]
         [CacheAspect]
         public IDataResult<Rental> GetById(int rentalId)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalId == rentalId), Messages.GetRentalByRentalId);
         }
 
+        [SecuredOperation("rental.details")]
         [CacheAspect]
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.GetRentalDetails);
         }
 
+        [SecuredOperation("rental.detailsid")]
         [CacheAspect]
         public IDataResult<RentalDetailDto> GetRentalDetailsById(int rentalId)
         {

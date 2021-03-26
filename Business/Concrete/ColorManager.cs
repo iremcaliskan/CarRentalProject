@@ -2,6 +2,8 @@
 using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -16,11 +18,14 @@ namespace Business.Concrete
     {
         IColorDal _colorDal;
         public ColorManager(IColorDal colorDal)
-        { // Oluşturulma anında bir veri erişim yöntemi ister
+        {
             _colorDal = colorDal;
         }
 
+        [SecuredOperation("color.add")]
         [ValidationAspect(typeof(ColorValidator))]
+        [CacheRemoveAspect("IColorService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(Color color)
         {
             /*
@@ -34,7 +39,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        [SecuredOperation("color.update")]
         [ValidationAspect(typeof(ColorValidator))]
+        [CacheRemoveAspect("IColorService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(Color color)
         {
             /*
@@ -48,6 +56,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
+        [SecuredOperation("color.delete")]
+        [CacheRemoveAspect("IColorService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Color color)
         {
             try
@@ -55,25 +66,29 @@ namespace Business.Concrete
                 _colorDal.Delete(color);
                 return new SuccessResult(Messages.Deleted);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw new Exception("A system error occurs on deletion!");
+                throw new Exception(exception.Message);
             }       
         }
 
+        [SecuredOperation("color.list")]
         public IDataResult<List<Color>> GetAll()
         {
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.GetAll);
         }
 
+        [SecuredOperation("color.getid")]
+        [CacheAspect]
         public IDataResult<Color> GetById(int colorId)
         {
             return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == colorId), Messages.GetColorByColorId);
         }
 
+        [SecuredOperation("color.getname")]
         public IDataResult<List<Color>> GetByName(string key)
         {
-            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(c => c.ColorName.Contains(key)), "Color is found by key!");
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(c => c.ColorName.Contains(key)), Messages.ColorIsFoundByKey);
         }
     }
 }

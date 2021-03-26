@@ -2,6 +2,8 @@
 using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -18,11 +20,13 @@ namespace Business.Concrete
         ICustomerDal _customerDal;
 
         public CustomerManager(ICustomerDal customerDal)
-        { // Newlenme anında, oluşturulma anında bir veri erişim yöntemi alacak
+        { // It requires a data access technique at the new time
             _customerDal = customerDal;
         }
 
         [ValidationAspect(typeof(CustomerValidator))]
+        [CacheRemoveAspect("ICustomerService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(Customer customer)
         {
             /*
@@ -37,6 +41,8 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CustomerValidator))]
+        [CacheRemoveAspect("ICustomerService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(Customer customer)
         {
             /*
@@ -50,6 +56,8 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
+        [CacheRemoveAspect("ICustomerService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Customer customer)
         {
             try
@@ -57,35 +65,45 @@ namespace Business.Concrete
                 _customerDal.Delete(customer);
                 return new SuccessResult(Messages.Deleted);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw new Exception("A system error occurs on deletion!");
+                throw new Exception(exception.Message);
             }
         }
 
+        [SecuredOperation("customer.list")]
+        [CacheAspect]
         public IDataResult<List<Customer>> GetAll()
         {
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.GetAll);
         }
 
+        [SecuredOperation("customer.getid")]
+        [CacheAspect]
         public IDataResult<Customer> GetById(int customerId)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerId == customerId), Messages.GetCustomerByUserId);
         }
 
+        [SecuredOperation("customer.details")]
+        [CacheAspect]
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
         {
-            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(), "Customer details are listed!");
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(), Messages.GetCustomerDetails);
         }
 
+        [SecuredOperation("customer.detailskey")]
+        [CacheAspect]
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetails(string key)
         {
-            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(c => c.LastName.Contains(key)), "Customer is found by keyword!");
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(c => c.LastName.Contains(key)), Messages.GetCustomerDetailsByKey);
         }
 
+        [SecuredOperation("customer.detailsid")]
+        [CacheAspect]
         public IDataResult<CustomerDetailDto> GetCustomerDetailsById(int customerId)
         {
-            return new SuccessDataResult<CustomerDetailDto>(_customerDal.GetCustomerDetailsById(c => c.CustomerId == customerId), "Customer is found!");
+            return new SuccessDataResult<CustomerDetailDto>(_customerDal.GetCustomerDetailsById(c => c.CustomerId == customerId), Messages.GetCustomerDetailsById);
         }
     }
 }

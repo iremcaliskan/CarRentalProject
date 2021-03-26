@@ -13,18 +13,23 @@ using System.Text;
 using Business.BusinessAspect.Autofac;
 using Core.Aspects.Autofac.Validation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
+using Core.Aspects.Autofac.Performance;
 
 namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
-        ICarDal _iCarDal; // Veri erişim yöntemlerinin her birini tutabilecek referans
+        ICarDal _iCarDal; // ICarDal is the reference type can hold all the data access techniques
         public CarManager(ICarDal iCarDal)
-        { // Oluşturma anında bir veri erişim yöntemi istiyor.
+        {
             _iCarDal = iCarDal;
         }
 
-        [ValidationAspect(typeof(CarValidator))] // Ekleme işleminden önce araya gir doğrulamak için, CarValidator kullanarak doğrula!
+        [SecuredOperation("car.add")]
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(Car car)
         {
             //var context = new ValidationContext<Car>(car); // Gelen Car için Car türünde Doğrulama Context'i oluştur.
@@ -53,7 +58,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
-        [ValidationAspect(typeof(CarValidator))] // Güncelleme işlemi öncesinde araya gir, CarValidator ile doğrula
+        [SecuredOperation("car.update")]
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(Car car)
         {
             /*
@@ -73,6 +81,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
+        [SecuredOperation("car.delete")]
+        [CacheRemoveAspect("ICarService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Car car)
         {
             try
@@ -86,8 +97,8 @@ namespace Business.Concrete
             }
         }
 
-        [SecuredOperation("Car.List")]
         [CacheAspect]
+        [PerformanceAspect(15)] // For Performance issue, if process time takes time longer than 15 seconds, warn me
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(), Messages.GetAll);
@@ -99,31 +110,40 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_iCarDal.Get(c => c.CarId == carId), Messages.GetCarByCarId);
         }
 
+        [CacheAspect]
+        [PerformanceAspect(15)]
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(c => c.BrandId == brandId), Messages.GetCarsByBrandId);
         }
 
+        [CacheAspect]
+        [PerformanceAspect(15)]
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(c => c.ColorId == colorId), Messages.GetCarsByColorId);
         }
 
+        [CacheAspect]
+        [PerformanceAspect(15)]
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(), Messages.GetCarsWithDetails);
         }
 
+        [CacheAspect]
         public IDataResult<CarDetailDto> GetCarDetailsById(int carId)
         {
             return new SuccessDataResult<CarDetailDto>(_iCarDal.GetCarDetailsById(c => c.CarId == carId), Messages.GetCarDetailsById);
         }
 
+        [PerformanceAspect(5)]
         public IDataResult<List<CarImagesDto>> GetCarImageDetails()
         {
             return new SuccessDataResult<List<CarImagesDto>>(_iCarDal.GetCarImageDetails(), Messages.CarImageDetails);
         }
 
+        [PerformanceAspect(15)]
         public IDataResult<List<CarImagesDto>> GetCarImageDetailsByCarId(int carId)
         {
             return new SuccessDataResult<List<CarImagesDto>>(_iCarDal.GetCarImageDetails(c => c.CarId == carId), Messages.CarImageDetailsByCarId);

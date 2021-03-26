@@ -2,6 +2,8 @@
 using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -17,11 +19,14 @@ namespace Business.Concrete
         IBrandDal _brandDal;
 
         public BrandManager(IBrandDal brandDal)
-        { // Oluşturulma anında bir veri erişim yöntemi ister
+        { // It needs a data access technique at creation time of class, newing
             _brandDal = brandDal;
         }
 
-        [ValidationAspect(typeof(BrandValidator))] // Ekleme işleminden önce araya gir yapısal doğrulama için, BrandValidator kullanarak doğrula
+        [SecuredOperation("brand.add")]
+        [CacheRemoveAspect("IBrandService.Get")]
+        [ValidationAspect(typeof(BrandValidator))] // Before the Addition process, intercepts the process and validate structure of Brand with BrandValidator
+        [TransactionScopeAspect]
         public IResult Add(Brand brand)
         {
             /*
@@ -36,7 +41,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
-        [ValidationAspect(typeof(BrandValidator))] // Güncelleme işlemi öncesinde araya gir, BrandValidator ile doğrula
+        [SecuredOperation("brand.update")]
+        [CacheRemoveAspect("IBrandService.Get")]
+        [ValidationAspect(typeof(BrandValidator))]
+        [TransactionScopeAspect]
         public IResult Update(Brand brand)
         {
             /*
@@ -51,6 +59,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
+        [SecuredOperation("brand.delete")]
+        [CacheRemoveAspect("IBrandService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(Brand brand)
         {
             try
@@ -65,16 +76,21 @@ namespace Business.Concrete
             
         }
 
+        [SecuredOperation("brand.list")]
+        [CacheAspect]
         public IDataResult<List<Brand>> GetAll()
         {
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.GetAll);
         }
 
+        [SecuredOperation("brand.getid")]
+        [CacheAspect]
         public IDataResult<Brand> GetById(int brandId)
         {
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == brandId), Messages.GetBrandByBrandId);
         }
 
+        [SecuredOperation("brand.getname")]
         public IDataResult<List<Brand>> GetByName(string name)
         {
             var result = _brandDal.GetAll(b=> b.BrandName.Contains(name));

@@ -2,6 +2,8 @@
 using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers;
@@ -25,7 +27,10 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
 
+        [SecuredOperation("carimage.add")]
         [ValidationAspect(typeof(CarImageValidator))]
+        [CacheRemoveAspect("ICarImageService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(IFormFile file, CarImage carImage)
         {
             // Rule Engine
@@ -34,7 +39,7 @@ namespace Business.Concrete
             if (result != null)
             {
                 return result;
-            } // Logic dönmezse sorun yok
+            } // If it does not return logic, it is ok
 
             carImage.ImagePath = FileHelper.Add(file);
             carImage.CreatedDate = DateTime.Now;
@@ -44,15 +49,19 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        [SecuredOperation("carimage.update")]
         [ValidationAspect(typeof(CarImageValidator))]
+        [CacheRemoveAspect("ICarImageService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(IFormFile file, CarImage carImage)
         {
+            // Rule Engine
             IResult result = BusinessRules.Run(CheckImageLimitExceeded(carImage.CarId), CheckIfImageExtensionValid(file), CheckIfImageExists(carImage.CarImageId));
 
             if (result != null)
             {
                 return result;
-            } // Logic dönmezse sorun yok
+            } // If it does not return logic, it is ok
 
             CarImage oldCarImage = GetById(carImage.CarImageId).Data;
 
@@ -65,7 +74,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
-        [ValidationAspect(typeof(CarImageValidator))]
+        [SecuredOperation("carimage.delete")]
+        [CacheRemoveAspect("ICarImageService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckIfImageExists(carImage.CarImageId));
@@ -89,16 +100,21 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarImageId == id));
         }
 
+        [SecuredOperation("carimage.getid")]
+        [CacheAspect]
         public IDataResult<CarImage> GetById(int carImageId)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarImageId == carImageId), "Car Image is found by its id");
         }
 
+        [SecuredOperation("carimage.list")]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
-        
+
+        [SecuredOperation("carimage.carid")]
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetImagesByCarId(int carId)
         {
             IResult result = BusinessRules.Run(CheckIfCarImageNull(carId));
@@ -112,7 +128,7 @@ namespace Business.Concrete
         }
         
          /**
-         *** Business Rules - Yapısal olmayan sisteme konması istenen kurallar
+         *** Business Rules - Yapısal olmayan sisteme konması istenen kurallar (Not structural rules, Rules from Management)
         **/
 
         private IResult CheckImageLimitExceeded(int carId)

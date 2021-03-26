@@ -3,6 +3,7 @@ using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
@@ -23,6 +24,8 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
+        [CacheRemoveAspect("IUserService.Get")]
+        [TransactionScopeAspect]
         public IResult Add(User user)
         {
             /*
@@ -37,6 +40,8 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
+        [CacheRemoveAspect("IUserService.Get")]
+        [TransactionScopeAspect]
         public IResult Update(User user)
         {
             /*
@@ -50,6 +55,8 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
+        [CacheRemoveAspect("IUserService.Get")]
+        [TransactionScopeAspect]
         public IResult Delete(User user)
         {
             try
@@ -57,30 +64,32 @@ namespace Business.Concrete
                 _userDal.Delete(user);
                 return new SuccessResult(Messages.Deleted);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw new Exception("A system error occurs on deletion!");
+                throw new Exception(exception.Message);
             }
         }
 
+        [SecuredOperation("user.list")]
         [CacheAspect]
         public IDataResult<List<User>> GetAll()
         {
             return new SuccessDataResult<List<User>>(_userDal.GetAll(),Messages.GetAll);
         }
 
+        [SecuredOperation("user.getid")]
         [CacheAspect]
         public IDataResult<User> GetById(int userId)
         {
             return new SuccessDataResult<User>(_userDal.Get(u=> u.UserId == userId), Messages.GetUserByUserId);
         }
 
+        [CacheAspect]
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user), Messages.UserClaimsListed);
         }
 
-        [CacheAspect]
         public IDataResult<User> GetByMail(string email)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email), Messages.UserFoundByEmail);
