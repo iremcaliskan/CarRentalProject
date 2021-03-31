@@ -36,8 +36,9 @@
     - Caching
       - Microsoft
     - Logging
-      - Serilog
-        -File Logger 
+      - Log4Net
+        - File Logger 
+        - Database Logger
     - Performance
     - Transaction
     - Validation
