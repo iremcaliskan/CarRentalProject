@@ -15,6 +15,8 @@ using Core.Aspects.Autofac.Validation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Logging;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 
 namespace Business.Concrete
 {
@@ -99,12 +101,14 @@ namespace Business.Concrete
 
         [CacheAspect]
         [PerformanceAspect(15)] // For Performance issue, if process time takes time longer than 15 seconds, warn me
+        [LogAspect(typeof(FileLogger))]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(), Messages.GetAll);
         }
 
         [CacheAspect]
+        [LogAspect(typeof(FileLogger))]
         public IDataResult<Car> GetById(int carId)
         {
             return new SuccessDataResult<Car>(_iCarDal.Get(c => c.CarId == carId), Messages.GetCarByCarId);
