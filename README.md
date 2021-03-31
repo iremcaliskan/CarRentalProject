@@ -1,4 +1,5 @@
 # Car Rental Project a.k.a 'Rent A Car'
+
 ## Back-End Side of Car Rental Project
 - Car Rental Project was created by taking inspiration from the car rental systems. 
 - The project was created in accordance with the **SOLID** rules using the **Enterprise-Layered Architecture** structure and written in **C#** language.
@@ -20,6 +21,12 @@
 - SQL Server
 - Repository Pattern
 - Result Structure
+  - Success
+    - Success Result
+    - Success Data Result
+  - Error 
+    - Error Result
+    - Error Data Result 
 - Aspect Oriented Programming
   - Cross Cutting Concerns
     - Security 
@@ -27,7 +34,10 @@
       - Hashing
       - JWT
     - Caching
+      - Microsoft
     - Logging
+      - Serilog
+        -File Logger 
     - Performance
     - Transaction
     - Validation
@@ -36,6 +46,7 @@
   - IoC Container
   - Interceptors
 - Extensions
-  - Claim
-  - Service Collection 
+  - ICollection<Claim>
+  - Claims Principal
+  - IServiceCollection
 - Restful API
